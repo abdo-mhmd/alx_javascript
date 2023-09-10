@@ -9,13 +9,21 @@ You must use the module request
 
 const request = require('request');
 
-const url = 'https://swapi-api.alx-tools.com/api/films/';
+const url = process.argv[2];
 const characterId = 18;
 
 request(url, (error, response, body) => {
     if (!error && response.statusCode === 200) {
-        const data = JSON.parse(body);
-        console.log(data.characters.filter(character => character === characterId).length);
+        const data = JSON.parse(body).results;
+        let count = 0;
+        data.forEach(character => {
+            for (x in character.characters) {
+                if (character.characters[x].includes(characterId)) {
+                    count++;
+                }
+            }
+        })
+        console.log(count);
     }
     else {
         console.log(error);
