@@ -13,13 +13,13 @@ const url = process.argv[2];
 const filePath = process.argv[3];
 
 request(url, (error, response, body) => {
-    if (!error && response.statusCode === 200) {
-        fs.writeFile(filePath, body, (err) => {
-            if (err) {
-                console.log(err);
-            }
-        });
-    } else {
-        console.error(error);
-    }
+  if (!error && response.statusCode === 200) {
+    fs.writeFile(filePath, body, (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+  } else {
+    console.error(error);
+  }
 });
