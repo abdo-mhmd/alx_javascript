@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    
+</head>
+
+<body>
+    <div class="login-form">
+        <h2>Log to the website</h2>
+        <input type="text" id="firstname" placeholder="First name">
+        <input type="text" id="email" placeholder="Email">
+        <button onclick="setCookiesAndShowWelcomeMessage()">Log me in</button>
+    </div>
+
+    <script>
+        const body = document.body;
+        const loginForm = document.querySelector(".login-form");
+
+        const setCookiesAndShowWelcomeMessage = () => {
+            const firstName = document.getElementById('firstname').value;
+            const emailAddress = document.getElementById('email').value;
+
+            Cookies.set('firstname', firstName, { expires: 10 });
+            Cookies.set('email', emailAddress, { expires: 10 });
+            showWelcomeMessageOrForm();
+        }
+
+        // Function to show the form
+        const showForm = () => {
+            loginForm.style.display = 'block';
+            const wellcomeMsg = document.querySelector('h1');
+            body.removeChild(wellcomeMsg);
+        }
+
+        // Function to hide form
+        const hideForm = () => {
+            loginForm.style.display = 'none';
+        }
+
+        // Function to delete cookies and show form
+        const deleteCookiesAndShowForm = () => {
+            Cookies.remove('firstname');
+            Cookies.remove('email');
+            showForm();
+        }
+        
+        // Function to show the welcome message or form when the user loged in
+        const showWelcomeMessageOrForm = () => {
+            const user = Cookies.get('firstname');
+            const email = Cookies.get('email');
+
+            if (user && email) {
+                const wellcomeMsg = document.createElement("h1");
+                const logoutBtn = document.createElement("a");
+                logoutBtn.innerHTML = "(logout)";
+                logoutBtn.setAttribute("onclick", "deleteCookiesAndShowForm()");
+                logoutBtn.setAttribute("style", "font-style: italic; margin-left: 10px;");
+                wellcomeMsg.innerHTML = `Welcome: ${user}`;
+                wellcomeMsg.appendChild(logoutBtn);
+                body.appendChild(wellcomeMsg);
+
+                hideForm();
+            } else {
+                showForm();
+            }
+        }   
+    </script>
+    <script src="node_modules/js-cookie/dist/js.cookie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
+    <script src="src/index.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        const availableItems = [
+            "Shampoo",
+            "Soap",
+            "Sponge",
+            "Water"
+        ];
+
+        const body = document.body;
+
+        const getCartFromStorage = () => {
+            const content = {};
+            if (sessionStorage.length === 0) {
+                return {};
+            }
+            for (let i = 0; i < sessionStorage.length; i++) {
+                const key = sessionStorage.key(i);
+                content[key] = sessionStorage.getItem(key);
+            }
+
+            return content;
+        }
+
+
+        const addItemToCart = (item) => {
+            const cartItems = getCartFromStorage();
+            console.log(cartItems);
+
+            if (cartItems[item] === undefined) {
+                cartItems[item] = 1;
+            }
+            else {
+                cartItems[item] += 1;
+            }
+            sessionStorage.setItem('cart', cartItems);
+            displayCart();
+        }
+
+        const removeItemFromCart = (item) => {
+            const cartItems = getCartFromStorage();
+            if (cartItems[item] === 1) {
+                delete cartItems[item];
+            }
+            sessionStorage.setItem('cart', cartItems);
+            displayCart();
+        }
+
+        const clearCart = () => {
+            sessionStorage.clear();
+            displayCart();
+        }
+
+        const createStore = () => {
+            const title = document.createElement('h2');
+            title.textContent = 'Available products:';
+            document.body.appendChild(title);
+            const product = document.createElement('ul');
+            product.classList.add('products');
+            for (let i = 0; i < availableItems.length; i++) {
+                const item = availableItems[i];
+                const li = document.createElement('li');
+                li.textContent = item;
+                li.classList.add('item');
+                li.onclick = () => addItemToCart(availableItems[i]);
+                li.style.cursor = 'pointer';
+                product.appendChild(li);
+            }
+            document.body.appendChild(product);
+        }
+
+        const displayCart = () => {
+            if (!(document.querySelector('#title'))) {
+                const title = document.createElement('h2');
+                title.id = 'title';
+                title.textContent = 'Your cart:';
+                document.body.appendChild(title);
+            }
+            const product = document.createElement('div');
+            product.innerHTML = "";
+            body.appendChild(product);
+
+            if (document.querySelector('div').innerHTML === "") {
+                clearCart();
+            }
+            updateCart();
+        }
+
+        const updateCart = () => {
+            const product = document.querySelector('div');
+            if (product.innerHTML === "") {
+                product.innerHTML = "Your cart is empty";
+            }
+            else {
+                const cartItems = getCartFromStorage();
+                const listItemes = document.createElement('ul');
+                const removeAll = document.createElement('li');
+                removeAll.textContent = "Clear my cart";
+                removeAll.addEventListener('click', () => clearCart());
+                listItemes.appendChild(removeAll);
+
+                for (let idx in Object.keys(cartItems)) {
+                    const item = document.createElement('li');
+                    const btnRemove = document.createElement('a');
+                    btnRemove.innerHTML = "(remove)";
+                    btnRemove.setAttribute("onclick", () => removeItemFromCart(idx));
+                    item.textContent = `${idx}x ${cartItems[idx]}`;
+                    item.appendChild(btnRemove);
+                    listItemes.appendChild(item);
+                }
+                product.appendChild(listItemes);
+            }
+
+        }
+
+        if (!sessionStorage) {
+            alert("Sorry, your browser does not support Web storage.Try again with a better one");
+        } else {
+            createStore();
+            displayCart();
+        }
+
+    </script>
+</body>
+
+</html>

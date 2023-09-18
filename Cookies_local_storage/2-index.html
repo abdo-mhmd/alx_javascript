@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+
+<body>
+    <div class="form">
+        <h1>Log to the website</h1>
+        <input type="text" id="firstname" placeholder="First name">
+        <input type="text" id="email" placeholder="Email">
+        <button onclick="setCookies()">Log me in</button>
+        <h2 class="cookies">Cookies</h2>
+        <button onclick="showCookies()">Show the cookies</button>
+    </div>
+    <script>
+        const setCookie = () => {
+            const firstname = document.getElementById('firstname').value;
+            const email = document.getElementById('email').value;
+            const expireDate = new Date();
+            expireDate.setDate(expireDate.getDate() + 10);
+            document.cookie = `firstname=${firstname}`;
+            document.cookie = `email=${email}`;
+            document.cookie = `expireDate=${expireDate.toDateString()}`;
+        }
+        const getCookie = (name) => {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i];
+                const [key, value] = cookie.split('=');
+                if (key === name) {
+                    return value;
+                }
+                return " ";
+            }
+        }
+        const showCookie = () => {
+            const paragraph = document.createElement('p');
+            const name = getCookie('firstname');
+            const email = getCookie('email');
+            paragraph.textContent = `Email: ${email} - Firstname: ${name}`;
+            document.body.appendChild(paragraph);
+        }
+
+    </script>
+    <script src="src/index.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cart-items</title>
+</head>
+
+<body>
+    <h1>cart-items</h1>
+
+    <script>
+
+        const availableItems = [
+            "Shampoo",
+            "Soap",
+            "Sponge",
+            "Water"
+        ];
+
+        const cartItems = [];
+
+        const addItemToCart = (item) => {
+            const citem = availableItems[item];
+            sessionStorage.setItem(citem, true);
+        }
+
+        const createStore = () => {
+            const cartItems = document.createElement('ul');
+            cartItems.classList.add('cart-items');
+
+            for (let i = 0; i < availableItems.length; i++) {
+                const item = availableItems[i];
+                const li = document.createElement('li');
+                li.textContent = item;
+                li.classList.add('items');
+                li.onclick = () => addItemToCart(i);
+                li.style.cursor = 'pointer';
+                cartItems.appendChild(li);
+            }
+
+            document.body.appendChild(cartItems);
+        }
+
+        const displayCart = () => {
+            if (sessionStorage.length === 0) {
+                return;
+            }
+            else {
+                const msg = document.createElement('p');
+                msg.innerHTML = "You previously had " + (sessionStorage.length - 1) + " items in your cart";
+                document.body.appendChild(msg);
+            }
+        }
+
+        const removeItemFromCart = () => {
+            if (sessionStorage.length === 0) {
+                return;
+            }
+            const btnClear = document.createElement('button');
+            btnClear.innerHTML = "Clear";
+            btnClear.addEventListener('click', () => sessionStorage.clear());
+            document.body.appendChild(btnClear);
+        }
+
+        if (!sessionStorage) {
+            alert("Sorry, your browser does not support Web storage. Try again with a better one");
+        }
+        else {
+            createStore();
+            displayCart();
+            removeItemFromCart();
+        }
+    </script>
+</body>
+
+</html>
