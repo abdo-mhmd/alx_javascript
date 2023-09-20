@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DOM Introduction</title>
+</head>
+
+<body>
+    <p id="myParagraph">This is a paragraph.</p>
+
+    <script>
+        const paragraph = document.getElementById('myParagraph');
+        // Use the DOM API to modify the content of the <p> element to I successfully updated this paragraph with javascript
+        paragraph.textContent = 'I successfully updated this paragraph with javascript';
+        // Verify that the program successfully modifies the element content when the HTML file is opened in a browser.
+        console.log(paragraph.textContent);
+    </script>
+</body>
+
+</html>

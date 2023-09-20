@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Modifying Elements</title>
+    <style>
+        img {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <img id="myImage" src="https://picsum.photos/200/300" alt="My Image">
+
+    <script>
+        // select the <img> element using its id and store it in a variable.
+        const img = document.getElementById('myImage');
+        // Use the DOM API to modify the src to https://picsum.photos/200/301,
+        img.src = 'https://picsum.photos/200/301';
+        // Use the DOM API to modify the alt to "New Image".
+        img.alt = 'New Image';
+        // Use the DOM API to the border style to 2px solid red.
+        img.style.border = '2px solid red';
+        // Verify that the program successfully modifies the element content when the HTML file is opened in a browser.
+        console.log(img.src);
+    </script>
+</body>
+
+</html>
